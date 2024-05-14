@@ -1,4 +1,5 @@
 package ru.ivanov.march.chat;
 
-public class HttpMethod {
+public enum HttpMethod {
+    GET, POST, PUT, DELETE
 }

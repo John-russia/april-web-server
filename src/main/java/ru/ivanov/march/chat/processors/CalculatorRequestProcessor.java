@@ -1,4 +1,6 @@
-package ru.ivanov.march.chat;
+package ru.ivanov.march.chat.processors;
+
+import ru.ivanov.march.chat.HttpRequest;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,9 +14,7 @@ public class CalculatorRequestProcessor implements RequestProcessor{
         int b = Integer.parseInt(httpRequest.getParameter( "b"));
         int result = a + b;
         String outMessage = a + " + " + b + " = " + result;
-
         String response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><body><h1>" + outMessage + "<h1><body><html>";
         output.write(response.getBytes(StandardCharsets.UTF_8));
-
     }
 }
