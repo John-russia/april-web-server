@@ -22,7 +22,7 @@ public class Dispatcher {
     }
 
     public void execute(HttpRequest httpRequest, OutputStream outputStream) throws IOException {
-        if (!router.containsKey(httpRequest.getUri())){
+        if (!router.containsKey(httpRequest.getUri())) {
             unknownOperationRequestProcessor.execute(httpRequest, outputStream);
             return;
         }
