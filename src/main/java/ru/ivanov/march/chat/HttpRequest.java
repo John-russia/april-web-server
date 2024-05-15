@@ -19,7 +19,7 @@ public class HttpRequest {
         return uri;
     }
 
-    public String getParameter(String key){
+    public String getParameter(String key) {
         return parameters.get(key);
     }
 
@@ -29,24 +29,23 @@ public class HttpRequest {
         this.uri = rawRequest.substring(startIndex + 1, endIndex);
         this.method = HttpMethod.valueOf(rawRequest.substring(0, startIndex));
         this.parameters = new HashMap<>();
-        if (uri.contains("?")){
+        if (uri.contains("?")) {
             String[] elements = uri.split("[?]");
             this.uri = elements[0];
             String[] keyValues = elements[1].split("&");
-            for (String o : keyValues){
+            for (String o : keyValues) {
                 String[] keyValue = o.split("=");
                 this.parameters.put(keyValue[0], keyValue[1]);
             }
         }
     }
 
-    public void info(boolean showRawRequest){
-        if (showRawRequest){
+    public void info(boolean showRawRequest) {
+        if (showRawRequest) {
             System.out.println(rawRequest);
         }
-        System.out.println("URL: " + uri);
+        System.out.println("URI: " + uri);
         System.out.println("HTTP-method: " + method);
         System.out.println("Parameters: " + parameters);
     }
-
 }
