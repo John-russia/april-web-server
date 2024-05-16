@@ -1,9 +1,6 @@
 package ru.ivanov.march.chat;
 
-import ru.ivanov.march.chat.processors.CalculatorRequestProcessor;
-import ru.ivanov.march.chat.processors.HelloWorldRequestProcessor;
-import ru.ivanov.march.chat.processors.RequestProcessor;
-import ru.ivanov.march.chat.processors.UnknownOperationalRequestProcessor;
+import ru.ivanov.march.chat.application.processors.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,16 +13,18 @@ public class Dispatcher {
 
     public Dispatcher() {
         this.router = new HashMap<>();
-        this.router.put("/calc", new CalculatorRequestProcessor());
-        this.router.put("/hello", new HelloWorldRequestProcessor());
+        this.router.put("GET /calc", new CalculatorRequestProcessor());
+        this.router.put("GET /hello", new HelloWorldRequestProcessor());
+        this.router.put("GET /items", new GetAllProductsProcessor());
+        this.router.put("POST /items", new CreateNewProductsProcessor());
         this.unknownOperationRequestProcessor = new UnknownOperationalRequestProcessor();
     }
 
     public void execute(HttpRequest httpRequest, OutputStream outputStream) throws IOException {
-        if (!router.containsKey(httpRequest.getUri())){
+        if (!router.containsKey(httpRequest.getRouteKey())){
             unknownOperationRequestProcessor.execute(httpRequest, outputStream);
             return;
         }
-        router.get(httpRequest.getUri()).execute(httpRequest, outputStream);
+        router.get(httpRequest.getRouteKey()).execute(httpRequest, outputStream);
     }
 }

@@ -1,4 +1,4 @@
-package ru.ivanov.march.chat.processors;
+package ru.ivanov.march.chat.application.processors;
 
 import ru.ivanov.march.chat.HttpRequest;
 
