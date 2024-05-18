@@ -1,9 +1,14 @@
 package ru.ivanov.march.chat.application;
 
-import java.time.LocalDateTime;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.UUID;
 
 public class Item {
+
+    private static final Logger logger = LogManager.getLogger(Item.class.getName());
+
     private UUID id;
     private String title;
     private int price;
@@ -39,5 +44,7 @@ public class Item {
         this.id = UUID.randomUUID();
         this.title = title;
         this.price = price;
+        logger.trace("Создан товар {}, id: {}, цена: {}", title, id, price);
+
     }
 }

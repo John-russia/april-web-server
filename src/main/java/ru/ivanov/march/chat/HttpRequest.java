@@ -1,12 +1,16 @@
 package ru.ivanov.march.chat;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HttpRequest {
+    private static final Logger logger = LogManager.getLogger(HttpRequest.class.getName());
     private String rawRequest;
     private String uri;
     private HttpMethod method;
@@ -24,12 +28,15 @@ public class HttpRequest {
     public HttpRequest(String rawRequest) {
         this.rawRequest = rawRequest;
         this.parseRequestLine();
-        this.tryToParseBody();
-
-
+        if (method == HttpMethod.POST) {
+            logger.trace("Пришёл POST-запрос. Ищем Бодю");
+            this.tryToParseBody();
+        } else {
+            logger.trace("Пришёл не POST-запрос.Не ищем Бодю");
+        }
     }
 
-    public void tryToParseBody(){
+    public void tryToParseBody() {
         if (method == HttpMethod.POST) {
             List<String> lines = rawRequest.lines().collect(Collectors.toList());
             int splitLine = -1;
@@ -53,7 +60,7 @@ public class HttpRequest {
         return uri;
     }
 
-    public String getParameter(String key){
+    public String getParameter(String key) {
         return parameters.get(key);
     }
 
@@ -63,25 +70,24 @@ public class HttpRequest {
         this.uri = rawRequest.substring(startIndex + 1, endIndex);
         this.method = HttpMethod.valueOf(rawRequest.substring(0, startIndex));
         this.parameters = new HashMap<>();
-        if (uri.contains("?")){
+        if (uri.contains("?")) {
             String[] elements = uri.split("[?]");
             this.uri = elements[0];
             String[] keyValues = elements[1].split("&");
-            for (String o : keyValues){
+            for (String o : keyValues) {
                 String[] keyValue = o.split("=");
                 this.parameters.put(keyValue[0], keyValue[1]);
             }
         }
     }
 
-    public void info(boolean showRawRequest){
-        if (showRawRequest){
-            System.out.println(rawRequest);
+    public void info(boolean showRawRequest) {
+//        if (showRawRequest){
+//            System.out.println(rawRequest);
+//        }
+        for (String s : Arrays.asList("URL: " + uri, "HTTP-method: " + method, "Parameters: " + parameters, "Body: " + body)) {
+            logger.trace(s);
         }
-        System.out.println("URL: " + uri);
-        System.out.println("HTTP-method: " + method);
-        System.out.println("Parameters: " + parameters);
-        System.out.println("Body: " + body);
     }
 
 }
