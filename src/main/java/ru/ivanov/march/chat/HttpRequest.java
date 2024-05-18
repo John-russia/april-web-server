@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class HttpRequest {
-    private static final Logger requestlogger = LogManager.getLogger(HttpRequest.class.getName());
+    private static final Logger logger = LogManager.getLogger(HttpRequest.class.getName());
     private String rawRequest;
     private String uri;
     private HttpMethod method;
@@ -29,10 +29,10 @@ public class HttpRequest {
         this.rawRequest = rawRequest;
         this.parseRequestLine();
         if (method == HttpMethod.POST) {
-            requestlogger.trace("Пришёл POST-запрос. Ищем Бодю");
+            logger.trace("Пришёл POST-запрос. Ищем Бодю");
             this.tryToParseBody();
         } else {
-            requestlogger.trace("Пришёл не POST-запрос.Не ищем Бодю");
+            logger.trace("Пришёл не POST-запрос.Не ищем Бодю");
         }
     }
 
@@ -86,7 +86,7 @@ public class HttpRequest {
 //            System.out.println(rawRequest);
 //        }
         for (String s : Arrays.asList("URL: " + uri, "HTTP-method: " + method, "Parameters: " + parameters, "Body: " + body)) {
-            requestlogger.trace(s);
+            logger.trace(s);
         }
     }
 

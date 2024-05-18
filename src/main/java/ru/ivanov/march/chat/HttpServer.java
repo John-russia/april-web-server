@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class HttpServer {
 
-    private static final Logger serverlogger = LogManager.getLogger(HttpServer.class.getName());
+    private static final Logger logger = LogManager.getLogger(HttpServer.class.getName());
 
     private int port;
     private Dispatcher dispatcher;
@@ -21,9 +21,9 @@ public class HttpServer {
 
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            serverlogger.trace("Сервер запущен на порту: {}", port);
+            logger.info("Сервер запущен на порту: {}", port);
             this.dispatcher = new Dispatcher();
-            serverlogger.trace("Диспечер проинициализирован");
+            logger.info("Диспечер проинициализирован");
             Storage.init();
             while (true) {
                 try (Socket socket = serverSocket.accept()) {
@@ -38,7 +38,7 @@ public class HttpServer {
                 }
             }
         } catch (IOException e) {
-            serverlogger.error("Что-то пошло не так {}", e.getMessage());
+            logger.error("Что-то пошло не так {}", e.getMessage());
         }
     }
 }

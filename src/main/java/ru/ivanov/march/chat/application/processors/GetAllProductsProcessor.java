@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class GetAllProductsProcessor implements RequestProcessor {
-    private static final Logger getAllProductsLogger = LogManager.getLogger(GetAllProductsProcessor.class.getName());
+    private static final Logger logger = LogManager.getLogger(GetAllProductsProcessor.class.getName());
 
     @Override
     public void execute(HttpRequest httpRequest, OutputStream output) throws IOException {
@@ -21,6 +21,6 @@ public class GetAllProductsProcessor implements RequestProcessor {
         Gson gson = new Gson();
         String result = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n" + gson.toJson(items);
         output.write(result.getBytes(StandardCharsets.UTF_8));
-        getAllProductsLogger.trace("Отправили клиенту список товаров");
+        logger.trace("Отправили клиенту список товаров");
     }
 }

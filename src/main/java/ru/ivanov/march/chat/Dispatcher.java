@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Dispatcher {
-    private static final Logger dispatcherlogger = LogManager.getLogger(Dispatcher.class.getName());
+    private static final Logger logger = LogManager.getLogger(Dispatcher.class.getName());
     private Map<String, RequestProcessor> router;
     private RequestProcessor unknownOperationRequestProcessor;
 
@@ -28,7 +28,7 @@ public class Dispatcher {
             unknownOperationRequestProcessor.execute(httpRequest, outputStream);
             return;
         }
-        dispatcherlogger.trace("Перенаправление на метод: {}", router.get(httpRequest.getRouteKey()).getClass());
+        logger.trace("Перенаправление на метод: {}", router.get(httpRequest.getRouteKey()).getClass());
         router.get(httpRequest.getRouteKey()).execute(httpRequest, outputStream);
     }
 }
